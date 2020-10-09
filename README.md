@@ -67,6 +67,9 @@ See [LICENSE](LICENSE) for details.
 Submit [issues](https://github.com/pdugas/recteq/issues) for defects, feature
 requests or questions. I'll try to help as I can.
 
+I am *very* interested in feedback on this to know whether it's working for
+others.
+
 ## Credits
 
 I'm Paul Dugas, <paul@dugas.cc>. This is my first HA integration so be gentle!
