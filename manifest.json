@@ -1,0 +1,15 @@
+{
+  "domain": "recteq",
+  "name": "Recteq",
+  "documentation": "https://github.com/pdugas/homeassistant-recteq/wiki",
+  "issue_tracker": "https://github.com/pdugas/homeassistant-recteq/issues",
+  "dependencies": [],
+  "after_dependencies": [],
+  "codeowners": ["@pdugas"],
+  "requirements": [
+    "pytuya==7.0.5",
+    "integrationhelper",
+    "voluptuous"
+  ],
+  "config_flow": true
+}

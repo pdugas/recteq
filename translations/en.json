@@ -1,0 +1,25 @@
+{
+  "config": {
+    "title": "Recteq",
+    "step": {
+      "user": {
+        "title": "Recteq Grill",
+        "description": "Enter the name and communication parameters for your recteq.\n\nVisit [the wiki](https://github.com/pdugas/homeassistant-recteq/wiki) for assistance figuring out these values.",
+        "data": {
+          "name": "Friendly Name; i.e. \"RT-590\" or \"Smoker\"",
+          "ip_address": "IP Address",
+          "device_id": "Device ID (20 hex digits)",
+          "local_key": "Local Key (16 hex digits)",
+          "protocol": "Protocol Version (3.1 or 3.3)"
+        }
+      }
+    },
+    "error": {
+      "please_correct": "Please correct the errors below.",
+      "invalid_ip_address": "The IP Address is invalid. Please enter a valid '#.#.#.#' IPv4 address.",
+      "invalid_device_id": "The Device ID is invalid. Please enter 20 hex digits.",
+      "invalid_local_key": "The Local Key is invalid. Please enter 16 hex digits.",
+      "invalid_protocol": "The Protocol is invalid. Please enter either 3.1 or 3.3."
+    }
+  }
+}
