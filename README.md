@@ -44,43 +44,8 @@ tap "Submit".
 
 Repeat the process if you have multiple grills to control. _(ps: I'm jealous!)_
 
-## IP Address, Device ID & Local Key
-
-The IP address of your grill can usually be found if you dig into the logs
-for your DHCP server. Poke around on your router for that. Mine registered
-using `ESP_######` as the name where the part after the "_" is part of the MAC
-address. Alternatively, you could run `tcpdump -n port 6666 or port 6667` to
-listen for the broadcasts. The grill broadcasts on port 6666 (older 3.1
-protocol) or 6667 (newer 3.3 protocol) periodically.
-
-[tuyapower project](https://github.com/jasonacox/tuyapower) can be used to scan
-more intelligently for Tuya devices (the embedded controller in the recteq) on
-your network. The IP address it shows (10.0.0.100 below) is the one you want.
-The ID value in the output is the 20-digit device ID needed. The product value
-in the output **_is not the local key_**!
-
-```shell
-# python -m tuyapower
-TuyaPower (Tuya compatible smart plug scanner) [0.0.25] tinytuya [1.0.3]
-
-Scanning on UDP ports 6666 and 6667 for devices (15 retries)...
-
-FOUND Device [Valid payload]: 10.0.0.100
-    ID = 00000000000000000000, product = XXXXXXXXXXXXXXXX, Version = 3.3
-    Device Key required to poll for stats
-
-Scan Complete!  Found 1 devices.
-```
-
-[tuyapower](https://github.com/jasonacox/tuya) has some notes on how to get
-the local key but I found it on my Android phone much easier. I connect it via
-USB to my laptop, allow MTP access, then I can browse the filesystem on the
-phone. I found `Phone/Android/data/com.ym.rectecgrill/cache/1.abj` has logs
-from the app and includes JSON-formatted messages that include a `localKey`
-property. That's the 16-digit local key value needed here.
-
-> **NOTE** - Hey recteq, if you're listenting, please just expose this value in
-> the app!
+See the [wiki](https://github.com/pdugas/recteq/wiki) for info in where to get
+the IP address, device ID and local key values needed.
 
 ## Change Log
 

@@ -12,6 +12,9 @@ Integrations and tap the red "+" button in the bottom right. Search for and
 select the "Rectec" entry. You'll get the dialog shown below. Enter the
 details for your grill and tap "Submit".
 
+See the [wiki](https://github.com/pdugas/recteq/wiki) for info on where to find
+the Device ID, IP address and Local Key values needed to add a grill.
+
 ## License
 
 Copyright (c) 2020 Paul Dugas
@@ -24,5 +27,3 @@ Submit [issues](https://github.com/pdugas/recteq/issues) for defects, feature
 requests or questions. I'll try to help as I can.
 
 [recteq]: https://www.recteq.com/
-[latest]: https://github.com/pdugas/recteq/releases/latest
-[rectec_status]: https://github.com/SDNick484/rectec_status
