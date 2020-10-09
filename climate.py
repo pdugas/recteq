@@ -28,6 +28,7 @@ from homeassistant.core import callback
 
 _LOGGER = logging.getLogger(__name__)
 
+ICON = 'mdi:grill'
 
 TEMP_MIN = 200
 TEMP_MAX = 500
@@ -58,6 +59,10 @@ class RecteqClimate(climate.ClimateEntity):
     @property
     def unique_id(self):
         return self._device.device_id
+
+    @property
+    def icon(self):
+        return ICON
 
     @property
     def available(self):
