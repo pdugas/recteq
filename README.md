@@ -81,7 +81,14 @@ requests or questions. I'll try to help as I can.
 I'm Paul Dugas, <paul@dugas.cc>. This is my first HA integration so be gentle!
 
 I learned this was possible from [`SDNick484/rectec_status`][rectec_status] and
-based the intial versions of the project on his examples.
+based the intial versions of the project on his examples. Much thanks to
+[SDNick](https://github.com/SDNick484/) along with those he credits;
+[codetheweb](https://github.com/codetheweb/),
+[clach04](https://github.com/clach04),
+[blackrozes](https://github.com/blackrozes),
+[jepsonrob](https://github.com/jepsonrob), and all the other contributors on
+tuyapi and python-tuya who have made communicating to Tuya devices possible
+with open source code.
 
 [recteq]: https://www.recteq.com/
 [latest]: https://github.com/pdugas/recteq/releases/latest
