@@ -1,17 +1,9 @@
-# Home Assistant Recteq Integration
+# Recteq Integration
 
 Custom integration for [recteq][recteq] grills and smokers providing a climate
 entity to control the unit and sensor entities for the probes.
 
 > **NOTE** - This isn't supported or approved by [recteq][recteq] at all!
-
-## Installation
-
-Download a copy of the [latest release][latest] and unpack the contents into 
-into `config/custom_components/recteq/` on your HA machine then restart it.
-
-You can also add <https://github.com/pdugas/recteq> as a custom repostory in 
-[HACS](https://hacs.xyz/) instead if you like.
 
 ## Configuration
 

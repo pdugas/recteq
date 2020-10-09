@@ -19,28 +19,45 @@ entity to control the unit and sensor entities for the probes.
 
 ## Installation
 
-Download a copy of the [latest release][latest] and unpack the contents into 
-into `config/custom_components/recteq/` on your HA machine then restart it.
+We recommend you install [HACS](https://hacs.xyz/) first, then add
+<https://github.com/pdugas/recteq> as a custom integration repository and
+finally, add the integration from there.
+
+Instead, if you prefer the manual route, you could download a copy of the
+[latest release][latest] and unpack the contents into into
+`config/custom_components/recteq/` on your HA machine. Feeling adventurous?
+Using `git clone` in `config/custom_components/` to pull the project from
+Github works too.
+
+In either case, you need to restart HS once it's installed. Then you need to
+[configure](#configuration) it.
 
 ## Configuration
 
-This integration is configured using the UI only. Navigate to Configuration >
-Integrations and tap the red "+" button in the bottom right. Search for and
-select the "Rectec" entry. You'll get the dialog shown below. Enter the
-details for your grill and tap "Submit".
+This integration is configured using the UI only; no changes in
+`configuration.yaml` are needed. Navigate to Configuration > Integrations and
+tap the red "+" button in the bottom right. Search for and select the "Rectec"
+entry. You'll get the dialog shown below. Enter the details for your grill and
+tap "Submit".
 
 ![config](img/config.png)
 
+Repeat the process if you have multiple grills to control. _(ps: I'm jealous!)_
+
 ## IP Address, Device ID & Local Key
 
-The IP address if your grill can usually be found if you dig into the logs
-for your DHCP server. Poke around on your router for that.
+The IP address of your grill can usually be found if you dig into the logs
+for your DHCP server. Poke around on your router for that. Mine registered
+using `ESP_######` as the name where the part after the "_" is part of the MAC
+address. Alternatively, you could run `tcpdump -n port 6666 or port 6667` to
+listen for the broadcasts. The grill broadcasts on port 6666 (older 3.1
+protocol) or 6667 (newer 3.3 protocol) periodically.
 
-The [tuyapower project](https://github.com/jasonacox/tuyapower) can be used to
-scan for Tuya devices on your network. The controller in the rectecs is a Tuya
-device. The IP address is shows (10.0.0.100 below) is the one you want. The ID
-value in the output is the 20-digit device ID needed. The product value in the
-output **_is not the local key_**!
+[tuyapower project](https://github.com/jasonacox/tuyapower) can be used to scan
+more intelligently for Tuya devices (the embedded controller in the recteq) on
+your network. The IP address it shows (10.0.0.100 below) is the one you want.
+The ID value in the output is the 20-digit device ID needed. The product value
+in the output **_is not the local key_**!
 
 ```shell
 # python -m tuyapower
@@ -56,14 +73,20 @@ Scan Complete!  Found 1 devices.
 ```
 
 [tuyapower](https://github.com/jasonacox/tuya) has some notes on how to get
-the local key but I found it on my Android phone pretty simply. I connect it
-via USB to my laptop, allow MTP access, then I can browse the filesystem on
-the phone. I found `Phone/Android/data/com.ym.rectecgrill/cache/1.abj` has
-logs from the app and includes JSON-formatted messages that include a 
-`localKey` property. That's the 16-digit local key value needed here.
+the local key but I found it on my Android phone much easier. I connect it via
+USB to my laptop, allow MTP access, then I can browse the filesystem on the
+phone. I found `Phone/Android/data/com.ym.rectecgrill/cache/1.abj` has logs
+from the app and includes JSON-formatted messages that include a `localKey`
+property. That's the 16-digit local key value needed here.
+
+> **NOTE** - Hey recteq, if you're listenting, please just expose this value in
+> the app!
 
 ## Change Log
 
+* 0.0.2 
+  * HACS support
+  * README additions
 * 0.0.1 
   * Initial release candidate
   * Works for me. Looking for others to test.
