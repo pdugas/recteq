@@ -1,13 +1,14 @@
 # Home Assistant Recteq Integration
 
-![recteq](brands/logo.png)
+Custom integration for [recteq][recteq] grills and smokers providing a climate
+entity to control the unit and sensor entities for the probes.
+
+[![hacs-badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![issue-badge](https://img.shields.io/github/issues/pdugas/recteq)](https://github.com/pdugas/recteq/issues)
+[![pr-badge](https://img.shields.io/github/issues-pr/pdugas/recteq)](https://github.com/pdugas/recteq/issues)
+[![release-badge](https://img.shields.io/github/v/release/pdugas/recteq?sort=semver)](https://github.com/pdugas/recteq/releases/latest)
 
 > **NOTE** - This isn't supported or approved by [recteq][recteq] at all!
-
-This is a [Home Assistant](https://homeassistant.io) custom component for
-[recteq][recteq] grills and smokers. It supports connecting to multiple grills
-creating a climate entity and a couple sensor entities (probe A and B) for each
-one.
 
 ![climate](img/climate.png)
 
@@ -57,6 +58,12 @@ via USB to my laptop, allow MTP access, then I can browse the filesystem on
 the phone. I found `Phone/Android/data/com.ym.rectecgrill/cache/1.abj` has
 logs from the app and includes JSON-formatted messages that include a 
 `localKey` property. That's the 16-digit local key value needed here.
+
+## Change Log
+
+* 0.0.1 
+  * Initial release candidate
+  * Works for me. Looking for others to test.
 
 ## License
 

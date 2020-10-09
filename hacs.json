@@ -1,0 +1,12 @@
+{
+  "name": "Recteq",
+  "country": "US",
+  "domains": [
+    "climate",
+    "sensor"
+  ],
+  "iot_class": [
+    "Local Polling"
+  ],
+  "render_readme": true
+}
