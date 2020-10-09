@@ -66,8 +66,8 @@ See [LICENSE](LICENSE) for details.
 
 ## Support
 
-Submit [issues](https://github.com/pdugas/homeassistant-recteq/issues) for
-defects, feature requests or questions. I'll try to help as I can.
+Submit [issues](https://github.com/pdugas/recteq/issues) for defects, feature
+requests or questions. I'll try to help as I can.
 
 ## Credits
 
@@ -77,5 +77,5 @@ I learned this was possible from [`SDNick484/rectec_status`][rectec_status] and
 based the intial versions of the project on his examples.
 
 [recteq]: https://www.recteq.com/
-[latest]: https://github.com/pdugas/homeassistant-recteq/releases/latest
+[latest]: https://github.com/pdugas/recteq/releases/latest
 [rectec_status]: https://github.com/SDNick484/rectec_status

@@ -1,8 +1,8 @@
 {
   "domain": "recteq",
   "name": "Recteq",
-  "documentation": "https://github.com/pdugas/homeassistant-recteq/wiki",
-  "issue_tracker": "https://github.com/pdugas/homeassistant-recteq/issues",
+  "documentation": "https://github.com/pdugas/recteq/wiki",
+  "issue_tracker": "https://github.com/pdugas/recteq/issues",
   "dependencies": [],
   "after_dependencies": [],
   "codeowners": ["@pdugas"],
