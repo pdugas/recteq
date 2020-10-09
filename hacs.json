@@ -8,6 +8,5 @@
   "iot_class": [
     "Local Polling"
   ],
-  "content_in_root": true,
-  "render_readme": true
+  "content_in_root": true
 }
