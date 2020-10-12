@@ -7,7 +7,7 @@ from .const import (
 )
 
 from homeassistant.components.sensor import DEVICE_CLASS_TEMPERATURE
-from homeassistant.const import TEMP_FAHRENHEIT
+from homeassistant.const import TEMP_FAHRENHEIT, STATE_UNAVAILABLE
 from homeassistant.core import callback
 from homeassistant.helpers import entity
 
@@ -37,16 +37,16 @@ class RecteqSensor(entity.Entity):
 
     @property
     def available(self):
-        return self._device.available
+        return self._device.available and self._device.is_on
 
     @property
     def state(self):
-        value = self._device.dps(self._dps)
-
-        if value == None:
-            return None
-
-        return round(float(value))
+        if self.available:
+            value = self._device.dps(self._dps)
+            if value == None:
+                return None
+            return round(float(value))
+        return STATE_UNAVAILABLE
 
     @property
     def unit_of_measurement(self):

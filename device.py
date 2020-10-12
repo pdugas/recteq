@@ -8,9 +8,9 @@ from datetime import timedelta
 from time import time
 from threading import Lock
 
-from .const import DOMAIN, CONF_NAME
+from .const import DOMAIN, CONF_NAME, DPS_POWER
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_UNAVAILABLE
 from homeassistant.helpers import update_coordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,6 +52,14 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
     def available(self):
         return self._cached_status != None
 
+    @property
+    def is_on(self):
+        return self.dps(DPS_POWER)
+
+    @property
+    def is_off(self):
+        return not self.is_on
+
     def dps(self, dps, value = None):
         if value == None:
             if self._cached_status == None:
@@ -61,6 +69,7 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
             return value
         else:
             _LOGGER.debug('Write {} value; {}={}'.format(self.name, dps, value))
+            #self._cached_status[dps] = value
             return self._pytuya.set_status(value, dps)
 
     def update(self):

@@ -18,11 +18,13 @@ from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT,
     HVAC_MODE_OFF,
     SUPPORT_TARGET_TEMPERATURE,
+    ATTR_CURRENT_TEMPERATURE
 )
 from homeassistant.const import (
     ATTR_TEMPERATURE,
     PRECISION_WHOLE,
     TEMP_FAHRENHEIT,
+    STATE_UNAVAILABLE
 )
 from homeassistant.core import callback
 
@@ -77,8 +79,16 @@ class RecteqClimate(climate.ClimateEntity):
         return TEMP_FAHRENHEIT
 
     @property
+    def is_on(self):
+        return self._device.is_on
+
+    @property
+    def is_off(self):
+        return self._device.is_off
+
+    @property
     def hvac_mode(self):
-        if self._device.dps(DPS_POWER) == POWER_ON:
+        if self.is_on:
             return HVAC_MODE_HEAT
 
         return HVAC_MODE_OFF
@@ -123,12 +133,20 @@ class RecteqClimate(climate.ClimateEntity):
 
     def set_hvac_mode(self, hvac_mode):
         if hvac_mode == HVAC_MODE_HEAT:
-            self._device.dps(DPS_POWER, POWER_ON)
+            self.turn_on()
         elif hvac_mode == HVAC_MODE_OFF:
-            self._device.dps(DPS_POWER, POWER_OFF)
+            self.turn_off()
         else:
             raise Exception('Invalid hvac_mode; "{}"'.format(hvac_mode))
             
+    @property
+    def is_on(self):
+        return self._device.dps(DPS_POWER) == POWER_ON
+
+    @property
+    def is_off(self):
+        return not self.is_on
+
     def turn_on(self):
         self.set_hvac_mode(HVAC_MODE_HEAT)
 
@@ -148,6 +166,15 @@ class RecteqClimate(climate.ClimateEntity):
         return TEMP_MAX
 
     @property
+    def state_attributes(self):
+        data = { ATTR_TEMPERATURE: round(self._device.dps(DPS_TARGET)) }
+        if self.is_on:
+            data[ATTR_CURRENT_TEMPERATURE] = round(self._device.dps(DPS_ACTUAL))
+        else:
+            data[ATTR_CURRENT_TEMPERATURE] = STATE_UNAVAILABLE
+        return data
+
+    @property
     def should_poll(self):
         return False
 
@@ -160,4 +187,3 @@ class RecteqClimate(climate.ClimateEntity):
     @callback
     def _update_callback(self):
         self.async_write_ha_state()
-
