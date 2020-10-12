@@ -4,7 +4,7 @@ import homeassistant.const as hac
 
 PROJECT = 'Recteq Custom Integration'
 
-VERSION_TUPLE = (0, 0, 2)
+VERSION_TUPLE = (0, 0, 3)
 VERSION = __version__ = '%d.%d.%d' % VERSION_TUPLE
 
 __author__ = 'Paul Dugas <paul@dugas.cc>'
