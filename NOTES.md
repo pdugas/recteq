@@ -9,6 +9,16 @@
 
 ## Protocol
 
+* Adjust the logger in HA to enable details from the pytuya library.
+
+  ```yaml
+  logger:
+    default: info
+    logs:
+      custom_components.recteq: debug
+      pytuya: debug
+  ```
+
 * The controller in my 2020 RT-590 uses the 3.3 version of the Tuya protocol.
   Logs from a call to the `pytuya.Device.status()` method are below.
 
