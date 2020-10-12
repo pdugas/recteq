@@ -47,6 +47,47 @@ Repeat the process if you have multiple grills to control. _(ps: I'm jealous!)_
 See the [wiki](https://github.com/pdugas/recteq/wiki) for info in where to get
 the IP address, device ID and local key values needed.
 
+## User Interface
+
+The stock [Thermostat Card](https://www.home-assistant.io/lovelace/thermostat/)
+can be used to present the current state of the recteq when it's on. I like to
+hide it and display a button instead when it's off. I use conditionals like
+below.
+
+```yaml
+type: vertical-stack
+cards:
+  - type: conditional
+    conditions:
+      - entity: climate.smoker
+        state: 'off'
+    card:
+      type: glance
+      entities:
+        - entity: climate.smoker
+          tap_action:
+            action: toggle
+  - type: conditional
+    conditions:
+      - entity: climate.smoker
+        state_not: 'off'
+    card:
+      type: thermostat
+      entity: climate.smoker
+  - type: history-graph
+    entities:
+      - entity: sensor.smoker_target_temperature
+        name: Target
+      - entity: sensor.smoker_actual_temperature
+        name: Actual
+      - entity: sensor.smoker_probe_a_temperature
+        name: Probe-A
+      - entity: sensor.smoker_probe_b_temperature
+        name: Probe-B
+    refresh_interval: 0
+    hours_to_show: 8
+```
+
 ## Change Log
 
 * 0.0.2 

@@ -2,6 +2,8 @@
 
 from .const import (
     DOMAIN,
+    DPS_TARGET,
+    DPS_ACTUAL,
     DPS_PROBEA,
     DPS_PROBEB
 )
@@ -15,6 +17,8 @@ async def async_setup_entry(hass, entry, add):
     device = hass.data[DOMAIN][entry.entry_id]
     add(
         [
+            RecteqSensor(device, DPS_TARGET, 'Target Temperature'),
+            RecteqSensor(device, DPS_ACTUAL, 'Actual Temperature'),
             RecteqSensor(device, DPS_PROBEA, 'Probe A Temperature'),
             RecteqSensor(device, DPS_PROBEB, 'Probe B Temperature')
         ]
