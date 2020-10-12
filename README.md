@@ -90,6 +90,11 @@ cards:
 
 ## Change Log
 
+* 0.0.3 
+  * Added target & actual sensors
+  * Sensors and current temperature report "unavailable" when off.
+  * Added UI usage to README
+  * Bugfixes and cleanup.
 * 0.0.2 
   * HACS support
   * README additions
