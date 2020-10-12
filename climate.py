@@ -79,14 +79,6 @@ class RecteqClimate(climate.ClimateEntity):
         return TEMP_FAHRENHEIT
 
     @property
-    def is_on(self):
-        return self._device.is_on
-
-    @property
-    def is_off(self):
-        return self._device.is_off
-
-    @property
     def hvac_mode(self):
         if self.is_on:
             return HVAC_MODE_HEAT
@@ -141,17 +133,17 @@ class RecteqClimate(climate.ClimateEntity):
             
     @property
     def is_on(self):
-        return self._device.dps(DPS_POWER) == POWER_ON
+        return self._device.is_on
 
     @property
     def is_off(self):
-        return not self.is_on
+        return self._device.is_off
 
     def turn_on(self):
-        self.set_hvac_mode(HVAC_MODE_HEAT)
+        self._device.dps(DPS_POWER, POWER_ON)
 
     def turn_off(self):
-        self.set_hvac_mode(HVAC_MODE_OFF)
+        self._device.dps(DPS_POWER, POWER_OFF)
 
     @property
     def supported_features(self):
