@@ -52,7 +52,7 @@ the IP address, device ID and local key values needed.
 The stock [Thermostat Card](https://www.home-assistant.io/lovelace/thermostat/)
 can be used to present the current state of the recteq when it's on. I like to
 hide it and display a button instead when it's off. I use conditionals like
-below.
+below. The result is shown in the screenshot at that top of this document.
 
 ```yaml
 type: vertical-stack
@@ -74,6 +74,22 @@ cards:
     card:
       type: thermostat
       entity: climate.smoker
+  - type: conditional
+    conditions:
+      - entity: climate.smoker
+        state_not: 'off'
+      - entity: input_number.smoker_probe_a_target
+        state_not: '0.0'
+    card:
+      type: glance
+      entities:
+        - entity: sensor.smoker_probe_a_temperature
+          name: Probe-A
+        - entity: input_number.smoker_probe_a_target
+          name: Target
+        - entity: sensor.smoker_probe_a_status
+          name: Status
+      state_color: true
   - type: history-graph
     entities:
       - entity: sensor.smoker_target_temperature
@@ -86,6 +102,31 @@ cards:
         name: Probe-B
     refresh_interval: 0
     hours_to_show: 8
+```
+
+The third panel above mimics the logic in the app that monitors the probe. I
+created an `input_number` named "Smoker Probe-A Target" (min=0.0, max=500.0,
+step=5.0, mode=slider, unit=°F, icon:mdi:thermometer). Then I added the
+template sensor below. An automation to send notifications could be added too
+if desired.
+
+```yaml
+sensor:
+  - platform: template
+    sensors:
+      smoker_probe_a_status:
+        value_template: >
+          {% if states('climate.smoker') == 'off' -%}
+            undefined
+          {% else %}
+            {% set target = states('input_number.smoker_probe_a_target')|round %}
+            {% set actual = states('sensor.smoker_probe_a_temperature')|round %}
+            {% set offset = actual - target %}
+            {% if offset > 5 %}Over Temp!
+            {% elif offset > -5 %}At Target
+            {% elif offset > -15 %}Approaching...
+            {% else %}Waiting...{% endif %}
+          {%- endif %}
 ```
 
 ## Change Log
