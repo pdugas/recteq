@@ -35,10 +35,11 @@ In either case, you need to restart HS once it's installed. Then you need to
 ## Configuration
 
 This integration is configured using the UI only; no changes in
-`configuration.yaml` are needed. Navigate to Configuration > Integrations and
-tap the red "+" button in the bottom right. Search for and select the "Rectec"
-entry. You'll get the dialog shown below. Enter the details for your grill and
-tap "Submit".
+`configuration.yaml` are needed. Navigate to **Configuration** &raquo;
+**Integrations** and tap the red "+" button in the bottom-right. Search for and
+select the "Recteq" entry in the list of available integrations to setup.
+You'll get the dialog shown below. Enter the details for your grill and tap
+"Submit".
 
 ![config](img/config.png)
 
