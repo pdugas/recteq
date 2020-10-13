@@ -106,7 +106,7 @@ cards:
 
 The third panel above mimics the logic in the app that monitors the probe. I
 created an `input_number` named "Smoker Probe-A Target" (min=0.0, max=500.0,
-step=5.0, mode=slider, unit=°F, icon:mdi:thermometer). Then I added the
+step=5.0, mode=slider, unit=°F, icon=mdi:thermometer). Then I added the
 template sensor below. An automation to send notifications could be added too
 if desired.
 
