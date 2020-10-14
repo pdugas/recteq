@@ -46,15 +46,16 @@ class RecteqSensor(entity.Entity):
     @property
     def state(self):
         if self.available:
-            value = self._device.dps(self._dps)
-            if value == None:
-                return None
-            return round(float(value))
+            value = self._device.dps(self._dps);
+            if value == None or value == 0:
+                return STATE_UNAVAILABLE
+            value = self._device.units.temperature(value, TEMP_FAHRENHEIT)
+            return round(float(value), 1)
         return STATE_UNAVAILABLE
 
     @property
     def unit_of_measurement(self):
-        return TEMP_FAHRENHEIT
+        return self._device.units.temperature_unit
 
     @property
     def device_class(self):

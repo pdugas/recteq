@@ -34,6 +34,7 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
         self._pytuya.set_version(float(protocol))
         self._cached_status = None
         self._cached_status_time = None
+        self._units = hass.config.units
         self._lock = Lock()
 
     @property
@@ -71,6 +72,10 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
             _LOGGER.debug('Write {} value; {}={}'.format(self.name, dps, value))
             #self._cached_status[dps] = value
             return self._pytuya.set_status(value, dps)
+
+    @property
+    def units(self):
+        return self._units
 
     def update(self):
         self._lock.acquire()
