@@ -132,6 +132,8 @@ sensor:
 
 ## Change Log
 
+* _next_
+  * Metric units support
 * 0.0.3 
   * Added target & actual sensors
   * Sensors and current temperature report "unavailable" when off.
