@@ -90,20 +90,19 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
             return self._pytuya.set_status(value, dps)
 
     @property
+    def units(self):
+        return self._units
+
+    @property
     def temperature_unit(self):
         if self._force_fahrenheit:
             return TEMP_FAHRENHEIT
-        return self._units.temperature_unit
+        return self.units.temperature_unit
 
     def temperature(self, degrees_f):
         if self._force_fahrenheit:
             return degrees_f
-        return self._units.temperature(degrees_f, TEMP_FAHRENHEIT)
-
-    def temperature_f(self, degrees):
-        if not self._force_fahrenheit and not self.temperature_unit == TEMP_FAHRENHEIT:
-            degrees = IMPERIAL_SYSTEM.temperature(degrees, TEMP_CELSIUS)
-        return degrees
+        return self.units.temperature(degrees_f, TEMP_FAHRENHEIT)
 
     def update(self):
         self._lock.acquire()
