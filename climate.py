@@ -32,7 +32,7 @@ from homeassistant.const import (
     TEMP_FAHRENHEIT,
 )
 from homeassistant.core import callback
-from homeassistant.util.unit_system import IMPERIAL_SYSTEM
+from homeassistant.util.unit_system import IMPERIAL_SYSTEM, METRIC_SYSTEM
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -82,7 +82,6 @@ class RecteqClimate(climate.ClimateEntity):
 
     @property
     def temperature_unit(self):
-
         return self._device.temperature_unit
 
     @property
@@ -129,7 +128,13 @@ class RecteqClimate(climate.ClimateEntity):
         if mode != None:
             self.set_hvac_mode(mode)
 
-        temp = self._device.temperature_f(kwargs.get(ATTR_TEMPERATURE))
+        temp = kwargs.get(ATTR_TEMPERATURE)
+        if self._device.units.temperature_unit != TEMP_FAHRENHEIT:
+            if self._device.force_fahrenheit:
+                # undo HA's conversion
+                temp = METRIC_SYSTEM.temperature(temp, TEMP_FAHRENHEIT)
+            else:
+                temp = IMPERIAL_SYSTEM.temperature(temp, self._device.units.temperature_unit)
         self._device.dps(DPS_TARGET, int(temp+0.5))
 
     def set_hvac_mode(self, hvac_mode):

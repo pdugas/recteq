@@ -140,6 +140,8 @@ sensor:
 
 ## Change Log
 
+* _next_
+  * Fix for setting target temp when Force-Fahrenheit enabled
 * 0.0.4
   * Metric units support
   * Force-Fahrenheit option
