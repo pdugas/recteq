@@ -48,6 +48,11 @@ Repeat the process if you have multiple grills to control. _(ps: I'm jealous!)_
 See the [wiki](https://github.com/pdugas/recteq/wiki) for info in where to get
 the IP address, device ID and local key values needed.
 
+The "Force Fahrenheit" option was added for folks who operate HA in Celsius but
+cook in Fahrenheit. The climate and sensor entities will report tempeatures in
+Fahrenheit rather than converting them to Celsius when this option is set. The
+thermostat card will still display °C but the values will actually be °F.
+
 ## User Interface
 
 The stock [Thermostat Card](https://www.home-assistant.io/lovelace/thermostat/)
@@ -134,6 +139,7 @@ sensor:
 
 * _next_
   * Metric units support
+  * Force-Fahrenheit option
 * 0.0.3 
   * Added target & actual sensors
   * Sensors and current temperature report "unavailable" when off.
