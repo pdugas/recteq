@@ -137,7 +137,7 @@ sensor:
 
 ## Change Log
 
-* _next_
+* 0.0.4
   * Metric units support
   * Force-Fahrenheit option
 * 0.0.3 
