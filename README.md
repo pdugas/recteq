@@ -116,13 +116,16 @@ step=5.0, mode=slider, unit=°F, icon=mdi:thermometer). Then I added the
 template sensor below. An automation to send notifications could be added too
 if desired.
 
+> **NOTE* - If you're using the "Force Fahrenheit" option, don't set the units
+> on the input\_number or HA will try to convert it automagically.
+
 ```yaml
 sensor:
   - platform: template
     sensors:
       smoker_probe_a_status:
         value_template: >
-          {% if states('climate.smoker') == 'off' -%}
+          {% if states('climate.smoker') == 'off' or states('sensor.smoker_probe_a_temperature') == 'unavailable' -%}
             undefined
           {% else %}
             {% set target = states('input_number.smoker_probe_a_target')|round %}
