@@ -2,10 +2,10 @@
 
 from .const import (
     DOMAIN,
-    DPS_TARGET,
     DPS_ACTUAL,
     DPS_PROBEA,
-    DPS_PROBEB
+    DPS_PROBEB,
+    DPS_TARGET,
 )
 
 from homeassistant.components.sensor import DEVICE_CLASS_TEMPERATURE
@@ -45,17 +45,20 @@ class RecteqSensor(entity.Entity):
 
     @property
     def state(self):
-        if self.available:
-            value = self._device.dps(self._dps);
-            if value == None or value == 0:
-                return STATE_UNAVAILABLE
-            value = self._device.units.temperature(value, TEMP_FAHRENHEIT)
-            return round(float(value), 1)
-        return STATE_UNAVAILABLE
+        if not self.available:
+            return STATE_UNAVAILABLE
+
+        value = self._device.dps(self._dps);
+        if value == None or value == 0:
+            return STATE_UNAVAILABLE
+
+        return round(float(self._device.temperature(value)), 1)
 
     @property
     def unit_of_measurement(self):
-        return self._device.units.temperature_unit
+        if self._device.force_fahrenheit:
+            return None
+        return self._device.temperature_unit
 
     @property
     def device_class(self):

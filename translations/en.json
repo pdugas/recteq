@@ -10,7 +10,8 @@
           "ip_address": "IP Address",
           "device_id": "Device ID (20 hex digits)",
           "local_key": "Local Key (16 hex digits)",
-          "protocol": "Protocol Version (3.1 or 3.3)"
+          "protocol": "Protocol Version (3.1 or 3.3)",
+          "force_fahrenheit": "Force Fahrenheit (True or False)"
         }
       }
     },

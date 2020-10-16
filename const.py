@@ -38,13 +38,16 @@ PROTOCOLS = [PROTOCOL_3_1, PROTOCOL_3_3]
 LEN_DEVICE_ID = 20
 LEN_LOCAL_KEY = 16
 
-CONF_NAME       = hac.CONF_NAME
-CONF_IP_ADDRESS = hac.CONF_IP_ADDRESS
-CONF_DEVICE_ID  = 'device_id'
-CONF_LOCAL_KEY  = 'local_key'
-CONF_PROTOCOL   = 'protocol'
+CONF_NAME             = hac.CONF_NAME
+CONF_IP_ADDRESS       = hac.CONF_IP_ADDRESS
+CONF_DEVICE_ID        = 'device_id'
+CONF_LOCAL_KEY        = 'local_key'
+CONF_PROTOCOL         = 'protocol'
+CONF_FORCE_FAHRENHEIT = 'force_fahrenheit'
 
 DEFAULT_PROTOCOL = PROTOCOL_3_3
 
 STR_INVALID_PREFIX = 'invalid_'
 STR_PLEASE_CORRECT = 'please_correct'
+
+FORCE_FAHRENHEIT = True

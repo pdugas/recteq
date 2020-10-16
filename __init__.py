@@ -13,7 +13,8 @@ from .const import (
     CONF_DEVICE_ID,
     CONF_IP_ADDRESS,
     CONF_LOCAL_KEY,
-    CONF_PROTOCOL
+    CONF_PROTOCOL,
+    CONF_FORCE_FAHRENHEIT
 )
 
 from .device import RecteqDevice
@@ -44,7 +45,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         entry.data[CONF_DEVICE_ID],
         entry.data[CONF_IP_ADDRESS],
         entry.data[CONF_LOCAL_KEY],
-        entry.data[CONF_PROTOCOL]
+        entry.data[CONF_PROTOCOL],
+        entry.data[CONF_FORCE_FAHRENHEIT]
     )
 
     for platform in PLATFORMS:

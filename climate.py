@@ -14,19 +14,22 @@ from .device import RecteqDevice
 
 from homeassistant.components import climate
 from homeassistant.components.climate.const import (
+    ATTR_CURRENT_TEMPERATURE,
     ATTR_HVAC_MODE,
+    ATTR_HVAC_MODES,
+    ATTR_MAX_TEMP,
+    ATTR_MIN_TEMP,
+    ATTR_TARGET_TEMP_STEP,
     HVAC_MODE_HEAT,
     HVAC_MODE_OFF,
     SUPPORT_TARGET_TEMPERATURE,
-    ATTR_CURRENT_TEMPERATURE
 )
 from homeassistant.const import (
     ATTR_TEMPERATURE,
     PRECISION_WHOLE,
+    STATE_UNAVAILABLE,
     TEMP_CELSIUS,
     TEMP_FAHRENHEIT,
-    STATE_UNAVAILABLE,
-    ATTR_UNIT_OF_MEASUREMENT
 )
 from homeassistant.core import callback
 from homeassistant.util.unit_system import IMPERIAL_SYSTEM
@@ -79,7 +82,8 @@ class RecteqClimate(climate.ClimateEntity):
 
     @property
     def temperature_unit(self):
-        return self._device.units.temperature_unit
+
+        return self._device.temperature_unit
 
     @property
     def hvac_mode(self):
@@ -94,39 +98,39 @@ class RecteqClimate(climate.ClimateEntity):
 
     @property
     def current_temperature(self):
-        temp = self._temperature(self._device.dps(DPS_ACTUAL))
+        temp = self._device.dps(DPS_ACTUAL)
         if temp == None:
             return None
-        return round(float(temp), 1)
+        return round(float(self._device.temperature(temp)), 1)
 
     @property
     def target_temperature(self):
-        temp = self._temperature(self._device.dps(DPS_TARGET))
+        temp = self._device.dps(DPS_TARGET)
         if temp == None:
             return None
-        return round(float(temp), 1)
+        return round(float(self._device.temperature(temp)), 1)
 
     @property
     def target_temperature_step(self):
-        return round(self._temperature(5.0 + 32), 1)
+        if self.temperature_unit == TEMP_FAHRENHEIT:
+            return 5.0
+        return 2.5
 
     @property
     def target_temperature_high(self):
-        return self._temperature(self.max_temp)
+        return self.max_temp
 
     @property
     def target_temperature_low(self):
-        return self._temperature(self.min_temp)
+        return self.min_temp
 
     def set_temperature(self, **kwargs):
         mode = kwargs.get(ATTR_HVAC_MODE)
         if mode != None:
             self.set_hvac_mode(mode)
 
-        temp = kwargs.get(ATTR_TEMPERATURE)
-        if not self.temperature_unit == TEMP_FAHRENHEIT:
-            temp = IMPERIAL_SYSTEM.temperature(temp, TEMP_CELSIUS)
-        self._device.dps(DPS_TARGET, int(temp))
+        temp = self._device.temperature_f(kwargs.get(ATTR_TEMPERATURE))
+        self._device.dps(DPS_TARGET, int(temp+0.5))
 
     def set_hvac_mode(self, hvac_mode):
         if hvac_mode == HVAC_MODE_HEAT:
@@ -156,11 +160,11 @@ class RecteqClimate(climate.ClimateEntity):
 
     @property
     def min_temp(self):
-        return self._temperature(TEMP_MIN)
+        return round(self._device.temperature(TEMP_MIN), 1)
 
     @property
     def max_temp(self):
-        return self._temperature(TEMP_MAX)
+        return round(self._device.temperature(TEMP_MAX), 1)
 
     @property
     def state_attributes(self):
@@ -170,6 +174,15 @@ class RecteqClimate(climate.ClimateEntity):
         else:
             data[ATTR_CURRENT_TEMPERATURE] = STATE_UNAVAILABLE
         return data
+
+    @property
+    def capability_attributes(self):
+        return {
+            ATTR_HVAC_MODES: self.hvac_modes,
+            ATTR_MIN_TEMP: self.min_temp,
+            ATTR_MAX_TEMP: self.max_temp,
+            ATTR_TARGET_TEMP_STEP: self.target_temperature_step,
+        }
 
     @property
     def should_poll(self):
@@ -185,5 +198,3 @@ class RecteqClimate(climate.ClimateEntity):
     def _update_callback(self):
         self.async_write_ha_state()
 
-    def _temperature(self, degrees):
-        return self._device.units.temperature(degrees, TEMP_FAHRENHEIT)
