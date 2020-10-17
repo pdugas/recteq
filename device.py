@@ -9,7 +9,12 @@ from time import time
 from threading import Lock
 
 from .const import (
+    CONF_DEVICE_ID,
+    CONF_FORCE_FAHRENHEIT,
+    CONF_IP_ADDRESS,
+    CONF_LOCAL_KEY,
     CONF_NAME,
+    CONF_PROTOCOL,
     DOMAIN,
     DPS_POWER,
 )
@@ -29,20 +34,21 @@ UPDATE_INTERVAL = timedelta(seconds=CACHE_SECONDS*2)
 
 class RecteqDevice(update_coordinator.DataUpdateCoordinator):
 
-    def __init__(self, hass, entry, device_id, ip_address, local_key, protocol, force_fahrenheit):
+    def __init__(self, hass, entry):
         super().__init__(hass, _LOGGER,
             name = entry.data[CONF_NAME],
             update_interval = UPDATE_INTERVAL,
         )
 
-        self._device_id        = device_id
-        self._ip_address       = ip_address
-        self._local_key        = local_key
-        self._protocol         = protocol
-        self._force_fahrenheit = force_fahrenheit
+        self._device_id        = entry.data[CONF_DEVICE_ID]
+        self._ip_address       = entry.data[CONF_IP_ADDRESS]
+        self._local_key        = entry.data[CONF_LOCAL_KEY]
+        self._protocol         = entry.data[CONF_PROTOCOL]
+        self._force_fahrenheit = entry.options.get(CONF_FORCE_FAHRENHEIT, False)
+        _LOGGER.debug("force_fahrenheit is {}".format(self._force_fahrenheit))
 
-        self._pytuya = pytuya.OutletDevice(device_id, ip_address, local_key)
-        self._pytuya.set_version(float(protocol))
+        self._pytuya = pytuya.OutletDevice(self._device_id, self._ip_address, self._local_key)
+        self._pytuya.set_version(float(self._protocol))
 
         self._cached_status = None
         self._cached_status_time = None
@@ -50,6 +56,11 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
         self._units = hass.config.units
 
         self._lock = Lock()
+
+        self._unsub = entry.add_update_listener(async_update_listener)
+
+    def __del__(self):
+        self._unsub()
 
     @property
     def device_id(self):
@@ -134,3 +145,9 @@ class RecteqDevice(update_coordinator.DataUpdateCoordinator):
                 await self.async_update()
         except ConnectionError as err:
             raise update_coordinator.UpdateFailed("Error fetching data") from err
+
+async def async_update_listener(hass, entry):
+    device = hass.data[DOMAIN][entry.entry_id]
+    _LOGGER.debug("update entry: data={} options={}".format(entry.data, entry.options))
+    device._force_fahrenheit = entry.options.get(CONF_FORCE_FAHRENHEIT, False)
+    _LOGGER.debug("force_fahrenheit now {}".format(device.force_fahrenheit))

@@ -23,6 +23,7 @@ from .const import (
 )
 from collections import OrderedDict
 from homeassistant import config_entries
+from homeassistant.core import callback
 
 @config_entries.HANDLERS.register(DOMAIN)
 class RecteqFlowHandler(config_entries.ConfigFlow):
@@ -72,7 +73,6 @@ class RecteqFlowHandler(config_entries.ConfigFlow):
         device_id        = ''
         local_key        = ''
         protocol         = DEFAULT_PROTOCOL
-        force_fahrenheit = False
 
         if user_input is not None:
             if CONF_NAME in user_input:
@@ -94,10 +94,39 @@ class RecteqFlowHandler(config_entries.ConfigFlow):
         data_schema[vol.Required(CONF_DEVICE_ID,        default=device_id)]        = str
         data_schema[vol.Required(CONF_LOCAL_KEY,        default=local_key)]        = str
         data_schema[vol.Required(CONF_PROTOCOL,         default=protocol)]         = str
-        data_schema[vol.Required(CONF_FORCE_FAHRENHEIT, default=force_fahrenheit)] = bool
 
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema(data_schema),
             errors=self._errors
         )
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        return OptionsFlowHandler(config_entry)
+
+class OptionsFlowHandler(config_entries.OptionsFlow):
+
+    def __init__(self, config_entry):
+        self.config_entry = config_entry
+
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(
+                title=self.config_entry.data[CONF_NAME],
+                data=user_input
+            )
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_FORCE_FAHRENHEIT,
+                        default=self.config_entry.options.get(CONF_FORCE_FAHRENHEIT)
+                    ): bool
+                }
+            ),
+        )
+

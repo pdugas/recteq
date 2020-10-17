@@ -6,15 +6,10 @@ import async_timeout
 
 from .const import (
     DOMAIN,
-    PROJECT,
-    VERSION,
     ISSUE_LINK,
     PLATFORMS,
-    CONF_DEVICE_ID,
-    CONF_IP_ADDRESS,
-    CONF_LOCAL_KEY,
-    CONF_PROTOCOL,
-    CONF_FORCE_FAHRENHEIT
+    PROJECT,
+    VERSION,
 )
 
 from .device import RecteqDevice
@@ -41,13 +36,7 @@ async def async_setup(hass: HomeAssistant, config):
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    hass.data[DOMAIN][entry.entry_id] = RecteqDevice(hass, entry,
-        entry.data[CONF_DEVICE_ID],
-        entry.data[CONF_IP_ADDRESS],
-        entry.data[CONF_LOCAL_KEY],
-        entry.data[CONF_PROTOCOL],
-        entry.data[CONF_FORCE_FAHRENHEIT]
-    )
+    hass.data[DOMAIN][entry.entry_id] = RecteqDevice(hass, entry)
 
     for platform in PLATFORMS:
         hass.async_create_task(
@@ -64,6 +53,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
             ]
         )
     )
+
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id)
 
