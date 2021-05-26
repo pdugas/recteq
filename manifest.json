@@ -1,6 +1,7 @@
 {
   "domain": "recteq",
   "name": "Recteq",
+  "version": "0.0.4",
   "documentation": "https://github.com/pdugas/recteq/wiki",
   "issue_tracker": "https://github.com/pdugas/recteq/issues",
   "dependencies": [],
