@@ -1,5 +1,7 @@
 # Home Assistant Recteq Integration
 
+> This is no longer working for me. Seems the protocol has changed but I don't have the time to work on it any more. Sorry gang.
+
 Custom integration for [recteq][recteq] grills and smokers providing a climate
 entity to control the unit and sensor entities for the probes.
 
